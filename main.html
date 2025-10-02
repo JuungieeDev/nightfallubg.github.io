@@ -3,78 +3,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Nightfall UBG</title>
+    <title>Unblocked Games Hub</title>
     <style>
         body {
-            font-family: 'Times New Roman', serif;
-            background-color: #1a1a1a;
-            color: white;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
             margin: 0;
             padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         header {
             background-color: #333;
+            color: white;
             padding: 20px;
+            width: 100%;
             text-align: center;
         }
-        header h1 {
-            margin: 0;
-            font-size: 36px;
+        .game-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 20px;
         }
-        .game-catalog {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 20px;
-            padding: 20px;
+        .game-card {
+            width: 220px;
+            margin: 10px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            cursor: pointer;
         }
-        .game-item {
-            background-color: #444;
-            padding: 15px;
-            border-radius: 10px;
+        .game-card img {
+            width: 100%;
+            border-bottom: 1px solid #ddd;
+        }
+        .game-card h4 {
             text-align: center;
-        }
-        .game-item h2 {
-            font-size: 20px;
-            margin: 0;
-        }
-        .game-item a {
-            text-decoration: none;
-            color: #4CAF50;
+            padding: 10px 0;
             font-size: 18px;
-            display: block;
-            margin-top: 10px;
+            color: #333;
         }
-        .game-item a:hover {
-            color: #81C784;
+        .game-card:hover {
+            transform: scale(1.05);
+            transition: all 0.3s ease-in-out;
+        }
+        .user-info {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            padding: 10px;
+            background-color: #444;
+            color: white;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+        .user-info span {
+            font-size: 18px;
+        }
+        .game-container {
+            margin-top: 100px;
+            display: flex;
+            justify-content: center;
+        }
+        iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+            max-width: 900px;
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>Nightfall UBG</h1>
-    </header>
+<header>
+    <h1>Unblocked Games Hub</h1>
+</header>
 
-    <section class="game-catalog">
-        <div class="game-item">
-            <h2>Example</h2>
-            <a href="https://example.com/game1" target="_blank">Play Game 1</a>
-        </div>
-        <div class="game-item">
-            <h2>Example</h2>
-            <a href="https://example.com/game2" target="_blank">Play Game 2</a>
-        </div>
-        <div class="game-item">
-            <h2>Example</h2>
-            <a href="https://example.com/game3" target="_blank">Play Game 3</a>
-        </div>
-        <div class="game-item">
-            <h2>Example</h2>
-            <a href="https://example.com/game4" target="_blank">Play Game 4</a>
-        </div>
-        <!-- Add more games here -->
-    </section>
+<div class="user-info">
+    <span id="username">Guest</span>
+    <span><button onclick="logout()">Logout</button></span>
+</div>
+
+<div class="game-list" id="game-list">
+    <!-- Dynamic game cards will be injected here -->
+</div>
+
+<div class="game-container" id="game-container">
+    <!-- Embedded game iframe will be here -->
+</div>
+
+<script>
+// Game Data (For Simulation, could be replaced with API)
+const games = [
+    { id: 1, title: "Game 1", url: "https://example.com/game1", thumbnail: "https://via.placeholder.com/220x120" },
+    { id: 2, title: "Game 2", url: "https://example.com/game2", thumbnail: "https://via.placeholder.com/220x120" },
+    { id: 3, title: "Game 3", url: "https://example.com/game3", thumbnail: "https://via.placeholder.com/220x120" }
+];
+
+// User Preferences (mocked with localStorage)
+function loadUser() {
+    const username = localStorage.getItem('username');
+    document.getElementById('username').textContent = username ? username : 'Guest';
+}
+
+function saveUser(name) {
+    localStorage.setItem('username', name);
+    loadUser();
+}
+
+// Game Handling
+function loadGames() {
+    const gameListContainer = document.getElementById('game-list');
+    gameListContainer.innerHTML = ''; // Clear existing games
+    games.forEach(game => {
+        const gameCard = document.createElement('div');
+        gameCard.className = 'game-card';
+        gameCard.onclick = () => loadGame(game.id);
+
+        gameCard.innerHTML = `
+            <img src="${game.thumbnail}" alt="${game.title}">
+            <h4>${game.title}</h4>
+        `;
+
+        gameListContainer.appendChild(gameCard);
+    });
+}
+
+function loadGame(gameId) {
+    const game = games.find(g => g.id === gameId);
+    const gameContainer = document.getElementById('game-container');
+    gameContainer.innerHTML = `<iframe src="${game.url}" title="${game.title}"></iframe>`;
+}
+
+// Logout function
+function logout() {
+    localStorage.removeItem('username');
+    loadUser();
+}
+
+// Initialize App
+function init() {
+    loadUser();
+    loadGames();
+}
+
+init();
+</script>
 
 </body>
 </html>
