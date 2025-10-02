@@ -6,74 +6,73 @@
     <title>Nightfall UBG</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
+            font-family: 'Arial', sans-serif;
+            background-color: #111;
             margin: 0;
             padding: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
+            color: #f1f1f1;
         }
         header {
-            background-color: #333;
+            background: linear-gradient(135deg, #6a1b9a, #ff4081);
             color: white;
-            padding: 20px;
+            padding: 30px;
             width: 100%;
             text-align: center;
+            font-size: 36px;
+            letter-spacing: 2px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            border-bottom: 2px solid #f1f1f1;
         }
         .game-list {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
             margin: 20px;
+            gap: 20px;
         }
         .game-card {
             width: 220px;
             margin: 10px;
-            background-color: #fff;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            cursor: pointer;
+            background-color: #222;
+            border: 1px solid #444;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         .game-card img {
             width: 100%;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid #444;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
         }
         .game-card h4 {
             text-align: center;
-            padding: 10px 0;
+            padding: 15px;
             font-size: 18px;
-            color: #333;
+            color: #fff;
+            background-color: #333;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
         }
         .game-card:hover {
             transform: scale(1.05);
-            transition: all 0.3s ease-in-out;
-        }
-        .user-info {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            padding: 10px;
-            background-color: #444;
-            color: white;
-            position: fixed;
-            top: 0;
-            left: 0;
-        }
-        .user-info span {
-            font-size: 18px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
         }
         .game-container {
             margin-top: 100px;
             display: flex;
             justify-content: center;
+            width: 100%;
         }
         iframe {
             width: 100%;
             height: 600px;
             border: none;
             max-width: 900px;
+            border-radius: 15px;
         }
     </style>
 </head>
@@ -82,11 +81,6 @@
 <header>
     <h1>Nightfall UBG</h1>
 </header>
-
-<div class="user-info">
-    <span id="username">(Pre-Release v1.0.0)</span>
-    <span><button onclick="logout()">Logout</button></span>
-</div>
 
 <div class="game-list" id="game-list">
     <!-- Dynamic game cards will be injected here -->
@@ -103,17 +97,6 @@ const games = [
     { id: 2, title: "Game 2", url: "https://example.com/game2", thumbnail: "https://via.placeholder.com/220x120" },
     { id: 3, title: "Game 3", url: "https://example.com/game3", thumbnail: "https://via.placeholder.com/220x120" }
 ];
-
-// User Preferences (mocked with localStorage)
-function loadUser() {
-    const username = localStorage.getItem('username');
-    document.getElementById('username').textContent = username ? username : 'Guest';
-}
-
-function saveUser(name) {
-    localStorage.setItem('username', name);
-    loadUser();
-}
 
 // Game Handling
 function loadGames() {
@@ -139,15 +122,8 @@ function loadGame(gameId) {
     gameContainer.innerHTML = `<iframe src="${game.url}" title="${game.title}"></iframe>`;
 }
 
-// Logout function
-function logout() {
-    localStorage.removeItem('username');
-    loadUser();
-}
-
 // Initialize App
 function init() {
-    loadUser();
     loadGames();
 }
 
